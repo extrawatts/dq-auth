@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 import { ConfigService } from '@nestjs/config';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
@@ -7,11 +7,9 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 export class EmailService {
   protected mailProvider: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
 
-  constructor(@Inject() private config: ConfigService) {
+  constructor(private config: ConfigService) {
     this.mailProvider = nodemailer.createTransport({
-      host: config.get('EMAIL_HOST'),
-      port: config.get('EMAIL_PORT'),
-      secure: true,
+      service: 'Hotmail',
       auth: {
         pass: config.get('EMAIL_PASSWORD'),
         user: config.get('EMAIL_USER'),
